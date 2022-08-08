@@ -16,7 +16,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: parse_tasks
+      - name: Parse Tasks
         shell: python
         env: 
           BODY: ${{github.event.pull_request.body}}
@@ -41,15 +41,16 @@ jobs:
             for task in tasks:
               metadata = json.loads(task[1])
               name = metadata["name"]
-              checked = task[0] != " "
-              ctx[name] = checked
+              value = "disable" if task[0] != " " else "enable"
+              ctx[name] = value
             return ctx
+
           print("starting...")
           body = environ.get("BODY", "")
           tasks = parse_body(body)
-          for name, checked in tasks.items():
-            print(name, checked)
-            print(f"::set-output name={name}::{checked}")
+          for name, value in tasks.items():
+            print(name, value)
+            print(f"::set-output name={name}::{value}")
           
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -57,7 +58,7 @@ jobs:
 
       # # Runs a single command using the runners shell
       - name: deploy
-        run: echo "migrations:${{steps.parse_tasks.migrations}} reversable:${{steps.parse_tasks.migrations}}"
+        run: echo "migrations:${{steps.parse-tasks.migrations}} reversable:${{steps.parse-tasks.migrations}}"
       # - uses: actions/github-script@v6
       #   with:
       #     script: |
