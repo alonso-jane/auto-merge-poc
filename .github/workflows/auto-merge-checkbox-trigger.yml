@@ -62,15 +62,16 @@ jobs:
       # # Runs a single command using the runners shell
   migrations:
     needs: [metadata]
-    #if: ${{needs.metadata.steps.tasks.migrations == 'enable'}}
+    if: ${{needs.metadata.steps.tasks.outputs.migrations == 'enable'}}
     runs-on: ubuntu-latest
     steps:
       - run: echo '${{toJSON(needs)}}'
       - name: rake migrations
         run: sleep $((RANDOM % 60)) 
+  
   deploy:
     needs: [migrations]
-    #if: always() && !cancelled() && ${{needs.migrations.steps.tasks.migrations == "enable"}}
+    if: always() && !cancelled() && ${{needs.migrations.result != "failure"}}
     runs-on: ubuntu-latest
     steps:
       - name: deploying
