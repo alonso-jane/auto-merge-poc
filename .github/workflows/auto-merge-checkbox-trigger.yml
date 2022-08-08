@@ -44,11 +44,12 @@ jobs:
               checked = task[0] != " "
               ctx[name] = checked
             return ctx
-
+          print("starting...")
           body = environ.get("BODY", "")
           tasks = parse_body(body)
           for name, checked in tasks.items():
             print(f"::set-output name={name}::{checked}")
+          print(f"done... {len(tasks) tasks found")
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # - uses: actions/checkout@v3
