@@ -4,6 +4,7 @@ name: deployment
 
 # Controls when the workflow will run
 on: 
+  workflow_dispatch:
   push:
     tags:
       - v1.*
@@ -14,3 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "${{toJSON(github.event)}}"
+
+      - uses: actions/github-script@v6
+        with:
+          script: |
+              const checks = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: context.sha,
+              });
+
+              
+              for (const check in checks) {
+                console.log(check)
+              }
