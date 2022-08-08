@@ -57,7 +57,7 @@ Keep your audience in mind: your product manager, code-reviewers, testers, and d
 - [ ] browser refresh required.
 - [ ] Could affect a clinic's ability to invoice or collect payment.
   
----  
+---   
 
 - 4+ checkboxes => high risk
 - 1-3 checkboxes => medium risk
