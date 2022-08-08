@@ -25,7 +25,4 @@ jobs:
                 ref: context.sha,
               });
 
-              
-              for (const check in check.data.check_runs) {
-                console.log(check)
-              }
+              console.log(JSON.stringify(checks))
