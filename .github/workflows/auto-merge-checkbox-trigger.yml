@@ -41,7 +41,7 @@ jobs:
             for task in tasks:
               metadata = json.loads(task[1])
               name = metadata["name"]
-              checked = task(0) != " "
+              checked = task[0] != " "
               ctx[name] = checked
             return ctx
 
