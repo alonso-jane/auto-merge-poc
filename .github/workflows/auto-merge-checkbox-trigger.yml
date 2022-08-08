@@ -19,7 +19,7 @@ jobs:
       - shell: python
         run: | 
           import json
-          pull = json.loads("${{toJSON(github.event.pull_request)}}")
+          pull = json.loads("""${{toJSON(github.event.pull_request)}}""")
           print(pull["body"])
       
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
