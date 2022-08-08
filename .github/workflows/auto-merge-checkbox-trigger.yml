@@ -1,0 +1,78 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on: 
+  pull_request:
+    branches: [ "main" ]
+    types: [ "edited" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    if: github.event.label.name == 'auto-merge'
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - run: echo ${{github.event}}
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # - uses: actions/checkout@v3
+
+      # # Runs a single command using the runners shell
+      # # - name: deploy
+      # #   run: ./script/deploy my-image
+      # - uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       function groupBy(list, keyGetter) {
+      #           const map = new Map();
+      #           list.forEach((item) => {
+      #               const key = keyGetter(item);
+      #               const collection = map.get(key);
+      #               if (!collection) {
+      #                   map.set(key, [item]);
+      #               } else {
+      #                   collection.push(item);
+      #               }
+      #           });
+      #           return map;
+      #       }
+      #       const opts = github.rest.pulls.list({
+      #         ...context.repo,
+      #         state: "open",
+      #         base: "main",
+      #       });
+      #       const pulls = await github.paginate(opts)
+
+      #       for const pull
+      #       // Get a list of all issues created by the PR opener
+      #       // See: https://octokit.github.io/rest.js/#pagination
+      #       const creator = context.payload.sender.login
+      #       const opts = github.rest.issues.listForRepo.endpoint.merge({
+      #         ...context.issue,
+      #         creator,
+      #         state: 'all'
+      #       })
+      #       const issues = await github.paginate(opts)
+
+      #       for (const issue of issues) {
+      #         if (issue.number === context.issue.number) {
+      #           continue
+      #         }
+
+      #         if (issue.pull_request) {
+      #           return // Creator is already a contributor.
+      #         }
+      #       }
+
+      #       await github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: `**Welcome**, new contributor!
+
+      #           Please make sure you're read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
+      #       })

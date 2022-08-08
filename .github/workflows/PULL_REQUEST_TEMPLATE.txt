@@ -1,0 +1,116 @@
+<!--
+INSTRUCTIONS
+ * Commented parts of the template below are instructions for the PR author to follow.
+ * Fill in all sections, leaving all headings. Mark sections as "n/a" if not applicable.
+-->
+
+## Special Release Instructions
+
+<!--
+List any special instructions that need to be followed before/during/after deploy, and **explain why** they are necessary.
+* If other PRs need to be released first, note those and explain here.
+* If anyone else needs to be notified upon deploy to production, note that here.
+-->
+
+<!--
+TODO: Add the appropriate Github labels for each special instruction so that our automation tools can correctly identify the traits of your PR:
+* `dependency: migrations` (migrations run with release)
+* `dependency: sql views` (views updated with release)
+* `dependency: env` (production env changes with release)
+* `notify: unobtrusive` or `notify: immediate` or `refresh: forced` (ask all users to refresh their page, or force them to)
+-->
+
+# Description
+
+<!--
+Summarize the problem, solution, and explain _the why_ and any other important context.
+Keep your audience in mind: your product manager, code-reviewers, testers, and deployer.
+-->
+
+<!-- If you have a ticket, technical design, or demo video, explicitly link those here: -->
+
+[Linear]()
+[Technical Design]()
+[Demo Video]()
+
+<!-- TODO: Add the ticket number to the PR title, if available. -->
+
+### One-liner for the Changelog
+
+<!-- In a sentence or two, describe what this PR does, in terms your fellow janers or the general public can understand. -->
+
+# Release Risk
+
+<!-- If you have any doubts about the correct risk level, talk it over with your team-mates and Lead. -->
+
+<!-- Check the boxes that apply to your PR: -->
+
+- [ ] migrations/[view changes](https://www.notion.so/janeapp/Database-Views-cacde92491b046fba9da3d2eb107debf).[^1]
+- [ ] cannot be rolled back (tally tokens, view or migration changes, API changes).
+- [ ] could create bad data.
+- [ ] new env configuration required in production.
+- [ ] gemfile/package.json changes.<sup>1</sup>
+- [ ] 200+ LOC changed in production files.<sup>1</sup>
+- [ ] affects a component or piece of code that is widely called throughout the code base.
+- [ ] user-facing workflow change to existing feature (user muscle memory or pattern recognition affected).
+- [ ] could prevent access to Jane (eg. cors, middleware, changes to auth system).
+- [ ] browser refresh required.
+- [ ] Could affect a clinic's ability to invoice or collect payment.
+
+---
+
+- 4+ checkboxes => high risk
+- 1-3 checkboxes => medium risk
+- 0 checkboxes => low risk
+- no production files touched => zero risk
+
+[^1]: No need to explain these risk factors below.
+
+<!-- TODO: Add the appropriate Github label for the risk score (i.e. `Risk - Low`) -->
+
+### Discussion
+
+<!--
+* List which areas of Jane are touched by this PR (i.e. US insurance user flows, all dropdown buttons, frontend API infrastructure, etc).
+* Explain the risks checked above, and any other relevant context.
+* Explain what has been done by you and/or your team to mitigate risk (i.e. thorough design, increased code-review approvals, added/updated specs, developed in tandem with QA team, outlined a detailed test plan, etc), and why together those are sufficient.
+-->
+
+### Worst-case Scenario
+
+<!--
+* What would it look like if something were to go terribly wrong?
+* How much damage could be done?
+* Keep your neighborhood deployer in mind; it will help identify errant PRs more quickly during deploy.
+-->
+
+# QA (Testing)
+
+### Developer Testing
+
+<!--
+What testing have you already done? In what environment?
+* For user-facing changes, this provides important context for testers to figure out what else can be done to ensure quality
+* For user-facing changes, what roles were tested and what roles should testers use for manual testing?
+* For non-user-facing changes, this provides important context for deployers and watchers during a release
+-->
+
+### Manual Testing
+
+<!--
+Can a manual tester, acting as an end-user, test this? If so, explain what further testing you recommend.
+* What outcome should black-box testing confirm? What is the expected behavior?
+* In what contexts? (i.e. which user flows? which user roles? which browsers? beta flags? etc)
+* For fix PRs, what steps can reproduce the original issue?
+-->
+
+# Code Review
+
+_Reviewers should:_
+
+- Confirm the PR's documentation is complete and sufficient for all stake-holders (reviewers, QA team, release team).\_
+- Ensure the code meets Jane best practices and quality standards:_ [\_Code Review Checklists_](https://www.notion.so/janeapp/Code-Review-checklist-2c510c527ac7470c902a5e8f25f9db3c)
+
+# Screenshots
+
+<!-- Include any screenshots you think will help your product manager, testers, or deploy team. -->
