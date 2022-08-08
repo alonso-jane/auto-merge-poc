@@ -62,7 +62,7 @@ jobs:
       # # Runs a single command using the runners shell
   migrations:
     needs: [metadata]
-    if: ${{needs.metadata.steps.tasks.outputs.migrations == 'enable'}}
+    if: ${{needs.metadata.outputs.migrations == 'enable'}}
     runs-on: ubuntu-latest
     steps:
       - run: echo '${{toJSON(needs)}}'
