@@ -58,7 +58,7 @@ jobs:
 
       # # Runs a single command using the runners shell
       - name: deploy
-        run: echo "migrations:${{steps.parse-tasks.migrations}} reversable:${{steps.parse-tasks.migrations}}"
+        run: echo 'migrations:${{toJSON(steps)'
       # - uses: actions/github-script@v6
       #   with:
       #     script: |
