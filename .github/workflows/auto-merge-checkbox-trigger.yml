@@ -32,10 +32,10 @@ jobs:
             """
             Search all lines for the following pattern match
             # input: "- [ ] <!-- {"name":"reversable"} --> cannot be rolled back (tally tokens, view or migration changes, API changes)."
-            # output: {"my-task":False}
+            # output: {"my-task":"disable"}
             
             # input: "- [X] <!-- {"name":"migrations"} --> migrations/[view changes](https://www.notion.so/janeapp/Database-Views-cacde92491b046fba9da3d2eb107debf).[^1]"
-            # output: {"migrations":False}
+            # output: {"migrations":"enable"}
             
             """
             pattern = re.compile(r"- \[([\sxX])\] <!-- ?(\{.*\}) ?--> ?(.*)")
