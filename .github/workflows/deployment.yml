@@ -26,6 +26,6 @@ jobs:
               });
 
               
-              for (const check in checks) {
+              for (const check in check.data.check_runs) {
                 console.log(check)
               }
