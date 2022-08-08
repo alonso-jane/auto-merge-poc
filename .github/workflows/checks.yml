@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Checks
+
+# Controls when the workflow will run
+on:  
+  pull_request:
+    types: 
+    - opened
+    - synchronize
+    branches:
+    - master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "all good!"
