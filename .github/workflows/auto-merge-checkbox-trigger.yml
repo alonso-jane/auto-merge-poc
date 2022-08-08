@@ -13,7 +13,9 @@ jobs:
   metadata:
     #if: ${{github.event.changes.body !== undefinied}}
     runs-on: ubuntu-latest
-
+    outputs:
+      migrations: ${{ steps.tasks.migrations }}
+      reversable: ${{ steps.tasks.reversable }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Parse Tasks
