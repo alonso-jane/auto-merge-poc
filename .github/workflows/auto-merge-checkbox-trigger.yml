@@ -67,7 +67,7 @@ jobs:
     steps:
       - run: echo '${{toJSON(needs)}}'
       - name: rake migrations
-        run: sleep $((RANDOM % 60)) 
+        run: sleep $((RANDOM % 10)) 
   
   deploy:
     needs: [migrations]
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploying
-        run: sleep $((RANDOM % 60)) 
+        run: sleep $((RANDOM % 10)) 
       # - uses: actions/github-script@v6
       #   with:
       #     script: |
