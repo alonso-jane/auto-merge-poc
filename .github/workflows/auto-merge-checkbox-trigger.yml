@@ -71,7 +71,7 @@ jobs:
   
   deploy:
     needs: [migrations]
-    if: always() && !cancelled() #&& ${{needs.migrations.result != 'failure'}}
+    if: always() && !cancelled() && needs.migrations.result != 'failure'
     runs-on: ubuntu-latest
     steps:
       - run: echo '${{toJSON(needs)}}'
