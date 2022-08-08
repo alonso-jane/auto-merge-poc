@@ -63,7 +63,7 @@ jobs:
     #if: ${{needs.metadata.steps.tasks.migrations == 'enable'}}
     runs-on: ubuntu-latest
     steps:
-      - run: echo '${{toJSON(needs.metadata.steps.tasks.migrations)}}'
+      - run: echo '${{toJSON(needs)}}'
       - name: rake migrations
         run: sleep $((RANDOM % 60)) 
   deploy:
