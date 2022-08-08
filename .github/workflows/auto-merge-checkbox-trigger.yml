@@ -16,8 +16,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - 
-        shell: python
+      - shell: python
         run: | 
           print "${{github.event.pull_request.body}}"
       
