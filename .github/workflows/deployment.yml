@@ -14,15 +14,22 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{toJSON(github.event)}}"
-
-      - uses: actions/github-script@v6
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-build
         with:
-          script: |
-              const checks = await github.rest.checks.listForRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: context.sha,
-              });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: test
+      - run: echo "${{steps.wait-for-build.outputs.conclusion}}"
+          # ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      # - uses: actions/github-script@v6
+      #   with:
+      #     script: |
 
-              console.log(JSON.stringify(checks))
+      #         const query = await github.rest.checks.listForRef({
+      #           owner: context.repo.owner,
+      #           repo: context.repo.repo,
+      #           ref: context.sha,
+      #         });
+      #         query.data.check_runs.every(check => check.conclusion === "success")
+      #         console.log(JSON.stringify(checks))
