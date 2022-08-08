@@ -11,14 +11,15 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # if: github.event.label.name == 'auto-merge'
+    if: github.event.changes.body !== undefinied
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - run: | 
-          echo "${{github.event.changes.body.from}}"
-          echo "${{github.event.pull_request.body}}"
+      - 
+        shell: python
+        run: | 
+          print "${{github.event.pull_request.body}}"
       
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # - uses: actions/checkout@v3
