@@ -17,8 +17,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - shell: python
-        with: 
-          body: github.event.pull_request.body
+        env: 
+          BODY: github.event.pull_request.body
         run: | 
           from os import environ
           print(list(environ.keys()))
