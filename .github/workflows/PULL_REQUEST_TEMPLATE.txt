@@ -47,7 +47,7 @@ Keep your audience in mind: your product manager, code-reviewers, testers, and d
 
 - [ ] <!-- {"name":"migrations"} --> migrations/[view changes](https://www.notion.so/janeapp/Database-Views-cacde92491b046fba9da3d2eb107debf).[^1]
 - [ ] <!-- {"name":"reversable"} --> cannot be rolled back (tally tokens, view or migration changes, API changes).
-- [ ] could create bad data.
+- [ ] <!-- {"name":"unstable"} --> could create bad data.
 - [ ] new env configuration required in production.
 - [ ] gemfile/package.json changes.<sup>1</sup>
 - [ ] 200+ LOC changed in production files.<sup>1</sup>
