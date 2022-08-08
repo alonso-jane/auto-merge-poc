@@ -17,11 +17,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - shell: python
+        with: 
+          body: github.event.pull_request.body
         run: | 
-          import json
-          pull = json.loads("""${{toJSON(github.event.pull_request)}}""")
-          print(pull["body"])
-      
+          from os import environ
+          print(list(environ.keys()))
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # - uses: actions/checkout@v3
 
