@@ -16,19 +16,45 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - shell: python
+      - name: parse-tasks
+        shell: python
         env: 
           BODY: ${{github.event.pull_request.body}}
         run: | 
           from os import environ
-          print(environ["BODY"])
+          import re
+
+          def parse_body(body):
+            """
+            Search all lines for the following pattern match
+            # input: "- [ ] <!-- {"name":"reversable"} --> cannot be rolled back (tally tokens, view or migration changes, API changes)."
+            # output: {"my-task":False}
+            
+            # input: "- [X] <!-- {"name":"migrations"} --> migrations/[view changes](https://www.notion.so/janeapp/Database-Views-cacde92491b046fba9da3d2eb107debf).[^1]"
+            # output: {"migrations":False}
+            
+            """
+            pattern = re.compile(r"- \[([\sxX])\] <!-- ?(\{.*\}) ?--> ?(.*)")
+            tasks = pattern.findall(body)
+            ctx = {}
+            for task in tasks:
+              metadata = json.loads(task.group(1))
+              name = metadata["name"]
+              checked = task.group(0) != " "
+              ctx[name] = checked
+            return ctx
+
+          body = environ.get("BODY", "")
+          tasks = parse_body(body)
+          for name, checked in tasks.items():
+            print(f"::set-output name={name}::{checked}")
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # - uses: actions/checkout@v3
 
       # # Runs a single command using the runners shell
-      # # - name: deploy
-      # #   run: ./script/deploy my-image
+      - name: deploy
+        run: echo "migrations:${{steps.parse-tasks.migrations}} reversable:${{steps.parse-tasks.migrations}}"
       # - uses: actions/github-script@v6
       #   with:
       #     script: |
