@@ -17,6 +17,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Parse Tasks
+        id: tasks
         shell: python
         env: 
           BODY: ${{github.event.pull_request.body}}
@@ -58,7 +59,7 @@ jobs:
 
       # # Runs a single command using the runners shell
       - name: deploy
-        run: echo '${{toJSON(steps.parse-tasks)}}'
+        run: echo '${{toJSON(steps.tasks)}}'
       # - uses: actions/github-script@v6
       #   with:
       #     script: |
