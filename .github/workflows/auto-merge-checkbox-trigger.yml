@@ -42,7 +42,7 @@ jobs:
             for task in tasks:
               metadata = json.loads(task[1])
               name = metadata["name"]
-              value = "disable" if task[0] != " " else "enable"
+              value = "disable" if task[0] == " " else "enable"
               ctx[name] = value
             return ctx
 
