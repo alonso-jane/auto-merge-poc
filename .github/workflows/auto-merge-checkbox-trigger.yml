@@ -18,7 +18,7 @@ jobs:
     steps:
       - shell: python
         env: 
-          BODY: github.event.pull_request.body
+          BODY: ${{github.event.pull_request.body}}
         run: | 
           from os import environ
           print(environ["BODY"])
