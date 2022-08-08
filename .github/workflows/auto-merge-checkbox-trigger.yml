@@ -23,6 +23,7 @@ jobs:
         run: | 
           from os import environ
           import re
+          import json
 
           def parse_body(body):
             """
