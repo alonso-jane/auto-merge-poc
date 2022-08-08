@@ -60,9 +60,10 @@ jobs:
       # # Runs a single command using the runners shell
   migrations:
     needs: [metadata]
-    if: ${{needs.metadata.steps.tasks.migrations == 'enable'}}
+    #if: ${{needs.metadata.steps.tasks.migrations == 'enable'}}
     runs-on: ubuntu-latest
     steps:
+      - run: echo '${{toJSON(needs.metadata.steps.tasks.migrations)}}'
       - name: rake migrations
         run: sleep $((RANDOM % 60)) 
   deploy:
