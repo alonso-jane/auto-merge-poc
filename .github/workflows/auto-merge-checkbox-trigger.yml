@@ -5,25 +5,78 @@ name: CI
 # Controls when the workflow will run
 on: 
   pull_request:
-    branches: [ "main" ]
     types: [ "edited" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    if: github.event.label.name == 'auto-merge'
+  metadata:
+    #if: ${{github.event.changes.body !== undefinied}}
     runs-on: ubuntu-latest
-
+    outputs:
+      migrations: ${{ steps.tasks.outputs.migrations }}
+      reversable: ${{ steps.tasks.outputs.reversable }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - run: echo ${{github.event}}
+      - name: Parse Tasks
+        id: tasks
+        shell: python
+        env: 
+          BODY: ${{github.event.pull_request.body}}
+        run: | 
+          from os import environ
+          import re
+          import json
+
+          def parse_body(body):
+            """
+            Search all lines for the following pattern match
+            # input: "- [ ] <!-- {"name":"reversable"} --> cannot be rolled back (tally tokens, view or migration changes, API changes)."
+            # output: {"my-task":"disable"}
+            
+            # input: "- [X] <!-- {"name":"migrations"} --> migrations/[view changes](https://www.notion.so/janeapp/Database-Views-cacde92491b046fba9da3d2eb107debf).[^1]"
+            # output: {"migrations":"enable"}
+            
+            """
+            pattern = re.compile(r"- \[([\sxX])\] <!-- ?(\{.*\}) ?--> ?(.*)")
+            tasks = pattern.findall(body)
+            ctx = {}
+            for task in tasks:
+              metadata = json.loads(task[1])
+              name = metadata["name"]
+              value = "disable" if task[0] == " " else "enable"
+              ctx[name] = value
+            return ctx
+
+          print("starting...")
+          body = environ.get("BODY", "")
+          tasks = parse_body(body)
+          for name, value in tasks.items():
+            print(name, value)
+            print(f"::set-output name={name}::{value}")
+          
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # - uses: actions/checkout@v3
 
       # # Runs a single command using the runners shell
-      # # - name: deploy
-      # #   run: ./script/deploy my-image
+  migrations:
+    needs: [metadata]
+    if: ${{needs.metadata.outputs.migrations == 'enable'}}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '${{toJSON(needs)}}'
+      - name: rake migrations
+        run: sleep $((RANDOM % 10)) 
+  
+  deploy:
+    needs: [migrations]
+    if: always() && !cancelled() && needs.migrations.result != 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '${{toJSON(needs)}}'
+      - name: deploying
+        run: sleep $((RANDOM % 10)) 
       # - uses: actions/github-script@v6
       #   with:
       #     script: |
